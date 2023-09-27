@@ -41,6 +41,11 @@ exports.crear = async function(persona) {
     return nuevaPersona;
 }
 
+exports.crearMultiple = async function(personas) {
+    nuevasPersonas = await db.Persona.bulkCreate(personas);
+    return nuevasPersonas;
+}
+
 /**
  * Actualizar la persona para el id proporcionado
  * @param {Number} id - Id de la persona a actualizar
@@ -50,14 +55,10 @@ exports.crear = async function(persona) {
 exports.actualizar = async function(idPersona, persona) {
     let personaActualizada = false;
 
-    personas = await db.Persona.findAll({
-        where: {
-            id: idPersona
-        }
-    });
-
-    if (personas.length > 0) {
-        result = await db.Persona.update(
+    personaActualizada = await db.Persona.findByPk(idPersona);
+ 
+    if (personaActualizada !== null) {
+        const result = await db.Persona.update(
             {
                 nombre: persona.nombre,
                 apellido: persona.apellido
@@ -68,9 +69,10 @@ exports.actualizar = async function(idPersona, persona) {
                 }
             }
         );
-
+    
         personaActualizada = true;
     }
 
+ 
     return personaActualizada;
 }

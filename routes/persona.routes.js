@@ -14,8 +14,13 @@ router.post("/personas", [
         check("apellido").notEmpty().withMessage("Apellido es obligatorio")
     ], personaController.postCrear);
 
-    router.put("/personas/:id", [
-        check("nombre").not().isEmpty().withMessage("Nombre es obligatorio"),
+router.post("/personas-multiples", [
+        check("*.nombre").not().isEmpty().withMessage("Nombre es obligatorio"),
+        check("*.apellido").notEmpty().withMessage("Apellido es obligatorio")
+    ], personaController.postCrearMultiple);
+
+router.put("/personas/:id", [
+        check("nombre").notEmpty().withMessage("Nombre es obligatorio"),
         check("apellido").notEmpty().withMessage("Apellido es obligatorio"),
         param("id").isNumeric().withMessage("Id debe ser numerico")
     ], personaController.putActualizar);    

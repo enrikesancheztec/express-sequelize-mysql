@@ -46,7 +46,20 @@ exports.postCrear = async function (req, res) {
     } else {
         let persona = req.body;
         let personaCreada = await personaService.crear(persona);
-        res.json(personaCreada).status(201);
+        res.status(201).json(personaCreada);
+    }    
+};
+
+exports.postCrearMultiple = async function (req, res) {
+    let result = validationResult(req);
+
+    if (result.errors.length > 0) {
+        res.status(400).json({ success: false, error: result });
+    } else {
+        let personas = req.body;
+        console.log("Personas: " + personas);
+        let personasCreadas = await personaService.crearMultiple(personas);
+        res.status(201).json(personasCreadas);
     }    
 };
 
